@@ -1,4 +1,4 @@
-# YourControls_LivToAir_CJ3-
+# YourControls_LivToAir_CJ3+
 YourControls_LivToAir_CJ3+
 # Made for MSFS2020 and not validated for 2024
 
