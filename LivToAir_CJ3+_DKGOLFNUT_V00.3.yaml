@@ -1,0 +1,1118 @@
+# Version 00.3
+# KNOWNN ISSUES:
+#   - GEN L & R Only have OFF/ON sync due to B EVENT for RESET of those switches. # If RESET is needed Each pilot must RESET ther switch manually since Synchronization for RESET is not available to YC's
+# FIXES:
+#   - 5/11/25  
+   # - Corrected Nav1 AUTOPILOT button Missing "T"
+   # - Added all Snacks, Burgers, Noodles and Books to tables
+   # - Added AS and WT G1000 & G3000 Definitions
+#   - 5/10/25  
+   # - Added DISCO LIGHTING MODE, Misc Cabin Lights & EFB MODE BUTTON
+   # - Added Seat Movements & GPU (External)
+#   - 5/10/25 Initial release for testing   
+
+include:
+  - definitions/modules/Instruments/AS_GNS430.yaml
+  - definitions/modules/Instruments/WT_GNS430.yaml
+  - definitions/modules/Instruments/AS_GNS530.yaml
+#  - definitions/modules/Instruments/WT_GNS530.yaml
+  - definitions/modules/Instruments/AS_GTX330.yaml
+  - definitions/modules/Instruments/AS_GNS650.yaml  
+  - definitions/modules/Instruments/AS_KR87.yaml 
+  - definitions/modules/Instruments/AS_KAP140.yaml
+  - definitions/modules/Instruments/PMS50_GNS.yaml
+  - definitions/modules/Instruments/PMS50_GTN.yaml
+  - definitions/modules/Instruments/TDS_GTNXi.yaml
+  - definitions/modules/Instruments/AS_G1000.yaml  
+#  - definitions/modules/Instruments/WT_G1000.NXi.yaml  
+  - definitions/modules/Instruments/AS_G3X.yaml 
+#  - definitions/modules/Instruments/AS_G3000.yaml 
+  - definitions/modules/Instruments/AS_G3X_Touch.yaml  
+#  - definitions/modules/Instruments/WT_G3000.yaml 
+  - definitions/modules/autopilot.yaml
+#  - definitions/modules/autopilot_BKSQ.yaml
+#  - definitions/modules/commonlvars.yaml
+  - definitions/modules/controls.yaml
+  - definitions/modules/deice.yaml
+  - definitions/modules/electrical.yaml
+  - definitions/modules/engines.yaml
+  - definitions/modules/fuel.yaml
+  - definitions/modules/general.yaml
+  - definitions/modules/handling.yaml
+  - definitions/modules/lights.yaml
+  - definitions/modules/navigation.yaml
+  - definitions/modules/pressurization.yaml
+  - definitions/modules/radios.yaml
+  - definitions/modules/safety.yaml
+  - definitions/modules/transponder.yaml
+  - definitions/modules/trim.yaml
+  
+  
+shared:
+  - # TEST
+   type: NumSet
+   var_name: A:LIGHT LANDING:2
+   var_units: Bool
+   var_type: f64
+   event_name: LANDING_LIGHTS_SET
+   event_param: 2
+
+#  - # LVAR's
+#  - #############  GLARESHIELD PANELS #############
+#  - ## Warning & Caution Acknowledgement ##
+  - #
+    type: var
+    var_name: L:MasterWarning_L
+  - #
+    type: var
+    var_name: L:MasterWarning_R
+  - #
+    type: var
+    var_name: L:MasterWarning_L
+  - #
+    type: var
+    var_name: L:MasterWarning_R
+
+#  - ## Alternate FLT Display ##
+  - #
+    type: var
+    var_name: L:STBYDIS_BARO_Rrduce
+  - #
+    type: var
+    var_name: L:STBYDIS_BARO_Add
+  - #
+    type: var
+    var_name: L:STBYDIS_Brightness_Reduce
+  - #
+    type: var
+    var_name: L:STBYDIS_Brightness_Add
+
+#  - ## Light Dimming Panel ##
+  - # Flood Lights 
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:3
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 3
+    index_reversed: true
+  - #
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:4
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 4
+    index_reversed: true
+  - # Panels Knob
+    type: var
+    var_name: L:Light_Panels_Knob
+  - # Displays Knob
+    type: var
+    var_name: L:Displays_Brightness
+  - # Touch Controls Knob
+    type: var
+    var_name: L:GTC_Brightness
+
+#  - ## Autopilot Panel ##  - #
+  - # HDG KNOB
+   type: NumSet
+   var_name: A:AUTOPILOT HEADING LOCK DIR:1
+   var_units: Bool
+   var_type: f64
+   event_name: HEADING_BUG_SET
+   event_param: 1
+  - # APR BUTTON Function 1
+   type: NumSet
+   var_name: A:AUTOPILOT APPROACH HOLD
+   var_units: Bool
+   var_type: f64
+   event_name: AP_APR_HOLD
+  - # APR BUTTON Function 2
+   type: NumSet
+   var_name: A:AUTOPILOT GLIDESLOPE HOLD
+   var_units: Bool
+   var_type: f64
+   event_name: AP_APR_HOLD
+  - # NAV BUTTON
+   type: NumSet
+   var_name: A:AUTOPILOT NAV1 LOCK
+   var_units: Bool
+   var_type: f64
+   event_name: AP_NAV1_HOLD
+  - # BANK Button
+   type: NumSet
+   var_name: A:AUTOPILOT MAX BANK ID
+   var_units: Bool
+   var_type: f64
+   event_name: AP_MAX_BANK_SET
+  - # AP MASTER BUTTON
+   type: NumSet
+   var_name: A:AUTOPILOT MASTER
+   var_units: Bool
+   var_type: f64
+   event_name: AP_MASTER
+  - # VS SPEED PITCH WHEEL
+   type: NumSet
+   var_name: A:AUTOPILOT VERTICAL HOLD:1
+   var_units: number
+   var_type: f64
+   event_name: AP_MASTER
+  -
+    type: NumSet
+    var_name: A:AUTOPILOT VERTICAL HOLD VAR:1
+    var_units: Feet per minute
+    var_type: i32
+    event_name: AP_VS_VAR_SET_ENGLISH
+    event_param: 1
+#    cancel_h_events: true
+  -
+    type: NumSet
+    var_name: A:AUTOPILOT AIRSPEED HOLD VAR
+    var_units: Knots
+    var_type: f64
+    event_name: AP_SPD_VAR_SET
+#    cancel_h_events: true
+  -
+    type: ToggleSwitch
+    var_name: A:AUTOPILOT MANAGED SPEED IN MACH
+    var_units: Bool
+    var_type: bool
+    event_name: AP_MANAGED_SPEED_IN_MACH_TOGGLE
+#    cancel_h_events: true
+    use_calculator: true
+
+
+
+#  - #############  MISCELLENEOUS ITEMS #############
+#  - ## Yoke Functions ##
+  - #
+    type: var
+    var_name: L:HANDLING_Yoke_1_Hide
+  - #
+    type: var
+    var_name: L:HANDLING_Yoke_2_Hide
+#  -
+#    type: ToggleSwitch
+#    var_name: A:AUTOPILOT DISENGAGED
+#    var_units: Bool
+#    var_type: bool
+#    event_name: AUTOPILOT_DISENGAGE_TOGGLE
+  - # Elevator Trim Switch
+    type: var
+    var_name: L:XMLVAR_ElevatorTrim_Switch_1
+  - # DISCO MODE LIGHTING
+    type: var
+    var_name: L:DiscoMode 
+  - # 
+    type: var
+    var_name: L:DiscoMode_Rand
+  - # 
+    type: var
+    var_name: L:DiscoMode_Rand_Blue
+  - # 
+    type: var
+    var_name: L:DiscoMode_Rand_Green
+  - # 
+    type: var
+    var_name: L:DiscoMode_Rand_Red  
+  - # 
+    type: var
+    var_name: L:EFB_Button 
+  - # 
+    type: var
+    var_name: L:GPU 
+#  - #############  Passenger CABIN/CARGO AREA#############
+#  - ## SunVisors ##
+  - # Pilot
+    type: var
+    var_name: L:SunBlock_L
+  - #
+    type: var 
+    var_name: L:SunBlock_L_X
+  - #
+    type: var
+    var_name: L:SunBlock_L_Y
+  - #
+    type: var
+    var_name: L:SunBlock_R
+  - #
+    type: var
+    var_name: L:SunBlock_R_X
+  - #
+    type: var
+    var_name: L:SunBlock_R_Y
+
+#  - ## Cockpit Seats ##
+  - #
+    type: var
+    var_name: L:Cockpit_SeatArm_L
+  - #
+    type: var
+    var_name: L:Cockpit_SeatArm_R
+
+#  - ## EXTERIOR DOORS ##
+  - # Main Cabin Door
+    type: var
+    var_name: L:C510_DOOR_Pilot
+  - #
+    type: var
+    var_name: L:Main_Stairs
+  - #
+    type: var
+    var_name: L:Main_Stairs_Locked
+  - #
+    type: var
+    var_name: L:Main Stairs_Anim
+  - #
+    type: var
+    var_name: L:Door_State
+  - # Rear Baggage Door
+    type: var
+    var_name: L:Door_Back
+  - #
+    type: var
+    var_name: L:Door_Back_Lock_Up
+  - #
+    type: var
+    var_name: L:Door_Back_Lock_Down
+  - # Front Left Baggage Door
+    type: var
+    var_name: L:Door_FL
+  - #
+    type: var
+    var_name: L:Door_FL_Lock_L
+  - #
+    type: var
+    var_name: L:Door_FL_Lock_R
+  - # Front Right Baggage Door
+    type: var
+    var_name: L:Door_FR
+  - #
+    type: var
+    var_name: L:Door_FR_Lock_L
+  - #
+    type: var
+    var_name: L:Door_FR_Lock_R
+
+#  - ## MAIIN CABIN Doors, Drawers, and Food items in Drawers##
+  - #
+    type: var
+    var_name: L:Cabin_Door_1
+  - #
+    type: var
+    var_name: L:Darth_Vader
+  - #
+    type: var
+    var_name: L:Cabin_Book_Closed
+  - #
+    type: var
+    var_name: L:Cabin_Door_2
+  - #
+    type: var
+    var_name: L:Cabin_Door_3
+  - #
+    type: var
+    var_name: L:Cabin_Door_4
+  - #
+    type: var
+    var_name: L:Cabin_Door_5
+  - #
+    type: var
+    var_name: L:Cabin_Door_6
+  - #
+    type: var
+    var_name: L:Cabin_Door_7
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Burger1
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Burger2
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Burger3
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Burger4
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Burger5
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Burger6
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Noodles1
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Noodles2
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Noodles3
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Noodles4
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Noodles5
+  - #
+    type: var
+    var_name: L:Cabin_Door_7_Noodles6
+  - #
+    type: var
+    var_name: L:Cabin_Door_8
+  - #
+    type: var
+    var_name: L:Cabin_Door_9
+
+#  - ## CABIN TABLES ##
+  - # Table 1
+    type: var
+    var_name: L:Table1_1_occupied
+  - #
+    type: var
+    var_name: L:Table1_2_occupied
+  - #
+    type: var
+    var_name: L:Table1_3_occupied
+  - #
+    type: var
+    var_name: L:Table_Right
+  - # Table 2
+    type: var
+    var_name: L:Table2_1_occupied
+  - #
+    type: var
+    var_name: L:Table2_2_occupied
+  - #
+    type: var
+    var_name: L:Table2_3_occupied
+  - #
+    type: var
+    var_name: L:Table_Left
+  - # Table 3
+    type: var
+    var_name: L:Table3_1_occupied
+  - #
+    type: var
+    var_name: L:Table_Right_2
+  - # Table 4
+    type: var
+    var_name: L:Table4_1_occupied
+  - #
+    type: var
+    var_name: L:Table_Left_2
+#  - ## Table 1 Snacks ##
+  - #
+    type: var
+    var_name: L:Table1_1_Snack1
+  - #
+    type: var
+    var_name: L:Table1_1_Snack2
+  - #
+    type: var
+    var_name: L:Table1_1_Snack3
+  - #
+    type: var
+    var_name: L:Table1_1_Snack4
+  - #
+    type: var
+    var_name: L:Table1_1_Snacks
+  - #
+    type: var
+    var_name: L:Table1_2_Snack1
+  - #
+    type: var
+    var_name: L:Table1_2_Snack2
+  - #
+    type: var
+    var_name: L:Table1_2_Snack3
+  - #
+    type: var
+    var_name: L:Table1_2_Snacks
+  - #
+    type: var
+    var_name: L:Table1_3_Snack1
+  - #
+    type: var
+    var_name: L:Table1_3_Snack1
+  - #
+    type: var
+    var_name: L:Table1_3_Snack2
+  - #
+    type: var
+    var_name: L:Table1_3_Snack3
+  - #
+    type: var
+    var_name: L:Table1_3_Snacks
+#  - ## Table 2 Snacks ##
+  - #
+    type: var
+    var_name: L:Table2_1_Snack1
+  - #
+    type: var
+    var_name: L:Table2_1_Snack2
+  - #
+    type: var
+    var_name: L:Table2_1_Snack3
+  - #
+    type: var
+    var_name: L:Table2_1_Snacks
+  - #
+    type: var
+    var_name: L:Table2_2_Snack1
+  - #
+    type: var
+    var_name: L:Table2_2_Snack2
+  - #
+    type: var
+    var_name: L:Table2_2_Snack3
+  - #
+    type: var
+    var_name: L:Table2_2_Snacks
+  - #
+    type: var
+    var_name: L:Table2_3_Snack1
+  - #
+    type: var
+    var_name: L:Table2_3_Snack2
+  - #
+    type: var
+    var_name: L:Table2_3_Snack3
+  - #
+    type: var
+    var_name: L:Table2_3_Snacks
+#  - ## Table 3 Snacks ##
+  - #
+    type: var
+    var_name: L:Table3_Snack1
+  - #
+    type: var
+    var_name: L:Table3_Snack2
+  - #
+    type: var
+    var_name: L:Table3_Snack3
+  - #
+    type: var
+    var_name: L:Table3_Snack4
+  - #
+    type: var
+    var_name: L:Table3_Snacks
+#  - ## Table 4 Snacks ##
+  - #
+    type: var
+    var_name: L:Table4_Snack1
+  - #
+    type: var
+    var_name: L:Table4_Snack2
+  - #
+    type: var
+    var_name: L:Table4_Snack3
+  - #
+    type: var
+    var_name: L:Table4_Snacks
+
+#  - ## Table 1 Burgers ##
+  - #
+    type: var
+    var_name: L:Table1_1_Burger
+  - #
+    type: var
+    var_name: L:Table1_1_Burger_Lvl
+  - #
+    type: var
+    var_name: L:Table1_3_Burger
+  - #
+    type: var
+    var_name: L:Table1_3_Burger_Lvl
+#  - ## Table 2 Burgers ##
+  - #
+    type: var
+    var_name: L:Table2_1_Burger
+  - #
+    type: var
+    var_name: L:Table2_1_Burger_Lvl
+  - #
+    type: var
+    var_name: L:Table2_3_Burger
+  - #
+    type: var
+    var_name: L:Table2_3_Burger_Lvl
+#  - ## Table 3 Burgers ##
+  - #
+    type: var
+    var_name: L:Table3_1_Burger
+  - #
+    type: var
+    var_name: L:Table3_1_Burger_Lvl
+#  - ## Table 4 Burgers ##
+  - #
+    type: var
+    var_name: L:Table4_1_Burger
+  - #
+    type: var
+    var_name: L:Table4_1_Burger_Lvl
+#  - ## Table 1,2,3,4 Noodles ##
+  - #
+    type: var
+    var_name: L:Table1_1_Noodles
+  - #
+    type: var
+    var_name: L:Table1_3_Noodles
+  - #
+    type: var
+    var_name: L:Table2_1_Noodles
+  - #
+    type: var
+    var_name: L:Table2_2_Noodles
+  - #
+    type: var
+    var_name: L:Table3_1_Noodles
+  - #
+    type: var
+    var_name: L:Table3_2_Noodles
+  - #
+    type: var
+    var_name: L:Table4_1_Noodles
+  - #
+    type: var
+    var_name: L:Table4_2_Noodles
+
+#  - ## Table 1,2,3,4 Books ##
+  - #
+    type: var
+    var_name: L:Table1_1_Book
+  - #
+    type: var
+    var_name: L:Table1_2_Book
+  - #
+    type: var
+    var_name: L:Table2_1_Book
+  - #
+    type: var
+    var_name: L:Table2_2_Book
+  - #
+    type: var
+    var_name: L:Table3_Book
+  - #
+    type: var
+    var_name: L:Table4_Book
+
+#  - ## Toilet Area ##
+  - #
+    type: var
+    var_name: L:Toilet_Seat_Cover
+  - #
+    type: var
+    var_name: L:Toilet_FlushBtn
+  - #
+    type: var
+    var_name: L:Door_Toilet_Anim
+  - #
+    type: var
+    var_name: L:Toilet_Cabinet_1
+  - #
+    type: var
+    var_name: L:Toilet_Cabinet_2
+
+#  - ## Cabin Seat Arm Rests ##
+  - #
+    type: var
+    var_name: L:Seat_F_L_Armrest
+  - #
+    type: var
+    var_name: L:Seat_F_R_Armrest
+  - #
+    type: var
+    var_name: L:Seat_M_L_Armrest
+  - #
+    type: var
+    var_name: L:Seat_M_L_Move
+  - #
+    type: var
+    var_name: L:Seat_M_L_Rotate
+  - #
+    type: var
+    var_name: L:Seat_M_R_Armrest
+  - #
+    type: var
+    var_name: L:Seat_M_R_Move
+  - #
+    type: var
+    var_name: L:Seat_M_R_Rotate
+  - #
+    type: var
+    var_name: L:Seat_B_L_Armrest
+  - #
+    type: var
+    var_name: L:Seat_B_R_Armrest
+
+#  - ## Cabin Window Shades/Curtains ##    
+  - #
+    type: var
+    var_name: L:Curtain_1_Anim
+  - #
+    type: var
+    var_name: L:Curtain_2_Anim
+  - #
+    type: var
+    var_name: L:Curtain_3_Anim
+  - #
+    type: var
+    var_name: L:Curtain_4_Anim
+  - #
+    type: var
+    var_name: L:Curtain_5_Anim
+  - #
+    type: var
+    var_name: L:Curtain_6_Anim
+  - #
+    type: var
+    var_name: L:Curtain_7_Anim
+  - #
+    type: var
+    var_name: L:Curtain_8_Anim
+  - #
+    type: var
+    var_name: L:Curtain_9_Anim
+  - #
+    type: var
+    var_name: L:Curtain_10_Anim
+  - #
+    type: var
+    var_name: L:Curtain_11_Anim
+  - #
+    type: var
+    var_name: L:Curtain_12_Anim
+  - #
+    type: var
+    var_name: L:Curtain_13_Anim
+
+#  - ## Cabin Coffee Cabinet ##  
+  - #
+    type: var
+    var_name: L:Coffee_Door_Anim
+  - #
+    type: var
+    var_name: L:Coffee_Machine_Btn
+  - #
+    type: var
+    var_name: L:Coffee_Cup_Filling
+  - #
+    type: var
+    var_name: L:Coffee_Cup_Progress
+
+#  - ## Cabin Overhead Reading LIGHTS ##
+  - # Reading Light 5
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:5
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 5
+    index_reversed: true
+  - # Reading Light 6
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:6
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 6
+    index_reversed: true
+  - # Reading Light 7
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:7
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 7
+    index_reversed: true
+  - # Reading Light 8
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:8
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 8
+    index_reversed: true
+  - # Reading Light 9
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:9
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 9
+    index_reversed: true
+  - # Reading Light 10
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:10
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 10
+    index_reversed: true    
+  - # Reading Light 11
+    type: NumSet        
+    var_name: A:LIGHT POTENTIOMETER:11
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 11
+    index_reversed: true
+  - # Reading Light 12
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:12
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 12
+    index_reversed: true
+  - # Reading Light 13
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:13
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 13
+    index_reversed: true
+  - # Reading Light 14
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:14
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 14
+    index_reversed: true
+  - # Reading Light 15
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:15
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 15
+    index_reversed: true
+  - # Reading Light 16
+    type: NumSet
+    var_name: A:LIGHT POTENTIOMETER:16
+    var_units: Percent
+    var_type: f64
+    event_name: LIGHT_POTENTIOMETER_SET
+    event_param: 16
+    index_reversed: true
+  - #
+    type: var
+    var_name: L:LightCabin1_On
+  - #
+    type: var    
+    var_name: L:LightCabin1_Off
+  - #
+    type: var
+    var_name: L:LightCabin2_On
+  - #
+    type: var    
+    var_name: L:LightCabin2_Off
+  - #
+    type: var
+    var_name: L:LightCabin3_On
+  - #
+    type: var    
+    var_name: L:LightCabin3_Off
+  - #
+    type: var
+    var_name: L:LightCabin4_On
+  - #
+    type: var    
+    var_name: L:LightCabin4_Off
+  - #
+    type: var
+    var_name: L:LightCabin5_On
+  - #
+    type: var    
+    var_name: L:LightCabin5_Off
+  - #
+    type: var
+    var_name: L:LightCabin6_On
+  - #
+    type: var    
+    var_name: L:LightCabin6_Off
+  - #
+    type: var
+    var_name: L:LightCabin7_On
+  - #
+    type: var    
+    var_name: L:LightCabin7_Off
+  - #
+    type: var
+    var_name: L:LightCabin8_On
+  - #
+    type: var    
+    var_name: L:LightCabin8_Off
+  - #
+    type: var
+    var_name: L:LightCabin9_On
+  - #
+    type: var    
+    var_name: L:LightCabin9_Off
+  - #
+    type: var
+    var_name: L:LightCabin10_On
+  - #
+    type: var    
+    var_name: L:LightCabin10_Off
+  - #
+    type: var
+    var_name: L:LightCabin11_On
+  - #
+    type: var    
+    var_name: L:LightCabin11_Off
+  - #
+    type: var
+    var_name: L:LightCabin12_On
+  - #
+    type: var    
+    var_name: L:LightCabin12_Off
+  - #
+    type: var
+    var_name: L:LightCabin13_On
+  - #
+    type: var    
+    var_name: L:LightCabin13_Off
+  - #
+    type: var
+    var_name: L:LightCabin14_On
+  - # 
+    type: var    
+    var_name: L:LightCabin14_Off
+#  - #############  Pedestal PANELS #############
+#  - ## All Natively Captured ##
+  - #
+    type: var
+    var_name: L:ENG1_Shutdown
+  - #
+    type: var
+    var_name: L:ENG1_Shutdown_Anim
+  - #
+    type: var
+    var_name: L:vENG1_Throttle_Active
+  - #
+    type: var
+    var_name: L:ENG1_Shutdown_Temp
+    unreliable: true
+  - #
+    type: var
+    var_name: L:ENG2_Shutdown
+  - #
+    type: var
+    var_name: L:ENG2_Shutdown_Anim
+  - #
+    type: var
+    var_name: L:vENG2_Throttle_Active
+  - #
+    type: var
+    var_name: L:ENG2_Shutdown_Temp    
+    unreliable: true
+#  - #############  HANDLING PANELS #############
+#  - ## All Natively Captured ##
+  - #
+    type: var
+    var_name: L:HANDLING_ElevatorTrim
+    unreliable: true
+  - #
+    type: var
+    var_name: L:HANDLING_AileronsTrim
+    unreliable: true
+  - #
+    type: var
+    var_name: L:HANDLING_RudderTrim
+    unreliable: true
+
+#  - #############  PILOT PANELS UPPER Left #############
+#  - ## Electrical Power Panel ##
+  - #
+    type: var
+    var_name: L:ELECTRICAL_Switch_emerLights
+  - #
+    type: var
+    var_name: L:STBY_FLY_DISPLAY_Switch
+  - #
+    type: var
+    var_name: L:Dispatch_Switch
+
+#  - #############  PILOT PANELS LOWER Left #############
+#  - ## ICE PROTECTION SWITCHES ##
+  - #
+    type: var
+    var_name: L:Switch_Xflow
+  - #
+    type: var
+    var_name: L:Switch_L_Deice
+  - #
+    type: var
+    var_name: L:Switch_R_Deice
+  - #
+    type: var
+    var_name: L:Switch_Tail_Deice
+  - #
+    type: var
+    var_name: L:ParkingBrake_Position
+#  - ## ICE PROTECTION WINDOWS SWITCHES ##
+  - #
+    type: var
+    var_name: L:Switch_Bleed_Windshield
+  - #
+    type: var
+    var_name: L:Windshield_Deice_Power
+  - #
+    type: var
+    var_name: L:Knob_Bleed_Windshield_Left
+  - #
+    type: var
+    var_name: L:Knob_Bleed_Windshield_Right
+  - #
+    type: var
+    var_name: L:Switch_Alcohol_Windshield
+  - #
+    type: var
+    var_name: L:Windshield_Alcohol_Power
+
+#  - ## PRESSURIZATTION SWITCHES ##
+  - #
+    type: var
+    var_name: L:Pressurization_AirSource_Knob
+  - #
+    type: var
+    var_name: L:Pressurization_Dump_Cover
+  - #
+    type: var
+    var_name: L:Pressurization_Dump_Switch
+
+#  - ## TEMPURATURE SELECT PANEL SWITCHES ##
+  - # MANUAL HOT/COLD
+    type: var
+    var_name: L:Temperature_Select_HotCold
+  - #
+    type: var
+    var_name: L:Cabin_Temperature_Target
+  - # MANUAL/NORMAL
+    type: var
+    var_name: L:Temperature_Select_Mode
+  - #
+    type: var
+    var_name: L:C525B_AIR_COND
+  - # OTHER VARIABLES FOR TEMP CONTROL
+    type: var
+    var_name: L:C525B_CURRENT_TEMP
+    unreliable: true
+  - #
+    type: var
+    var_name: L:C525B_FWD_FANB
+  - #
+    type: var
+    var_name: L:C525B_IS_TEMP_CELCIUS
+  - #
+    type: var
+    var_name: L:C525B_SELECTED_TEMP
+
+#  - #############  PILOT PANELS LOWER RIGHT #############
+#  - ## MISCELLANEOUS LIGHT SWITCHES ##
+  - # PAX SAFETY/SEATBELTS
+    type: var
+    var_name: L:SeatBelt_Light_Switch
+  - #
+    type: var
+    var_name: L:SeatBelt_Ding
+  - #AntiCollision Lights
+    type: var
+    var_name: L:AntiColl_Light_Switch
+  - # LANDING LIGHT/TAXI LIGHTS
+    type: var
+    var_name: L:LandingTaxi_Light_Switch
+#  - ## PITOT HEAT SWITCHES ##
+  - # 
+    type: var
+    var_name: L:Switch_Pitot_1
+  - #
+    type: var
+    var_name: L:Switch_Pitot_2
+
+
+server:
+  -
+    type: var
+    var_name: A:FUEL TANK LEFT MAIN LEVEL
+    var_units: Percent
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:FUEL TANK RIGHT MAIN LEVEL
+    var_units: Percent
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:1
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:2
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:3
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:4
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:5
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:6
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:7
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:8
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:9
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:10
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
+  -
+    type: var
+    var_name: A:PAYLOAD STATION WEIGHT:11
+    var_units: Pounds
+    var_type: f64
+    unreliable: true
